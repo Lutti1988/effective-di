@@ -41,6 +41,10 @@ namespace DI_Autofac_Test
 			builder.RegisterAssemblyTypes(AppDomain.CurrentDomain.GetAssemblies())
 				.AsClosedTypesOf(typeof(IEventHandler<>)).AsImplementedInterfaces();
 
+			IContainer container = null;
+			builder.Register(c => container).AsSelf();
+			builder.RegisterBuildCallback(c => container = c);
+
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
