@@ -1,4 +1,6 @@
-﻿using DI_Autofac_Test.Service;
+﻿using System;
+using DI_Autofac_Test.Events;
+using DI_Autofac_Test.Service;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
@@ -16,8 +18,21 @@ namespace DI_Autofac_Test.Pages
 		}
 
 		public void OnGet()
-		{
+        {
+            var event1 = new FirstEvent
+            {
+                MyID = Guid.NewGuid(),
+                Timestamp = DateTime.Now
+            };
 
-		}
+            _eventPublisherService.Emit(event1);
+
+            var event2 = new SecondEvent(new MyObject {ID = Guid.NewGuid(), Name = "Francesc"})
+            {
+                Timestamp = DateTime.Now
+            };
+
+            _eventPublisherService.Emit(event2);
+        }
 	}
 }
